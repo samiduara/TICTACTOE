@@ -36,18 +36,19 @@ function init(){
   board = [0,0,0,0,0,0,0,0,0];
   turn = 1;
   winner = null; 
+  render();
 
-}
+};
 
 function render(){
-  board.forEach(function(cell, idx){
-      let div = document.getElementById(`cell${idx}`);
-      div.style.backgroundColor = COLORS[cell];            
+  board.forEach(function(id, idx){
+      let div = document.getElementById(`id${idx}`);
+      div.style.backgroundColor = COLORS[id];            
   });
 
   if(winner){
       
-      if(winner === 'X'){
+      if(winner === 'T'){
           msgEl.textContent = 'Tie! Try Again!';
       } else {
           msgEl.textContent =`${COLORS[winner].toUpperCase()} Wins!`
@@ -58,7 +59,7 @@ function render(){
 }
 
 function handlePlayClick(evt){
-  let idx = evt.target.id.replace('cell', '');
+  let idx = evt.target.id.replace('id', '');
   if(isNaN(idx) || winner) return;
   if(board[idx] !== 0) return;
   board[idx] = turn;
@@ -69,20 +70,20 @@ function handlePlayClick(evt){
 
 function getWinner(){
   // initialize all possible win routes
-  let play = [0];
-  let winningLine;
+  let sum = [0, 0, 0, 0, 0, 0, 0, 0, ];
+  let winner;
 
-  if(play.indexOf(WIN[0]) >= 0 || play.indexOf(WIN[1]) >= 0){
-      if(play.indexOf(WIN[0]) >= 0){
-          winningLine = play.indexOf(WIN[0]);
+  if(sum.indexOf(WIN[0]) >= 0 || sum.indexOf(WIN[1]) >= 0){
+      if(sum.indexOf(WIN[0]) >= 0){
+          winner = sum.indexOf(WIN[0]);
       } else {
-          winningLine = play.indexOf(WIN[1]); 
+          winner = sum.indexOf(WIN[1]); 
       }
   };
 
-  if(winningLine >= 2){
-      return play[winningLine] / 3;
-  } else if(play.indexOf(0) === -1){
-      return 'X';
+  if(winner >= 0){
+      return sum[winner] / 3;
+  } else if(sum.indexOf(0) === -1){
+      return 'T';
   }
 }
